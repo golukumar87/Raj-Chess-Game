@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Raj Chess Game | 3D Real Chess</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b10'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-size='38' fill='%23f2c76a'%3E%E2%99%94%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-card">
+      <div class="loading-piece">♔</div>
+      <strong>Raj Chess Game</strong>
+      <span>Preparing the board...</span>
+    </div>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+  <section class="entry-screen" id="login-screen">
+    <div class="entry-panel">
+      <div class="hero-preview" aria-hidden="true">
+        <div class="mini-board">
+          <span>♜</span><span>♞</span><span>♝</span><span>♛</span>
+          <span>♙</span><span>♔</span><span>♕</span><span>♘</span>
+          <span>♗</span><span>♖</span><span>♟</span><span>♚</span>
+          <span>♘</span><span>♙</span><span>♛</span><span>♜</span>
+        </div>
+      </div>
+
+      <p class="eyebrow">Raj Chess Game</p>
+      <h1>Welcome to Real Chess</h1>
+      <p class="entry-copy">Sign in for a named session, or start instantly as a guest.</p>
+
+      <form class="login-form" id="login-form">
+        <label class="field-label" for="login-name">Player Name</label>
+        <input id="login-name" type="text" placeholder="Enter your name" autocomplete="name">
+
+        <label class="field-label" for="login-email">Email or Username</label>
+        <input id="login-email" type="text" placeholder="Optional for demo login" autocomplete="username">
+
+        <label class="field-label" for="avatar-select">Player Avatar</label>
+        <select id="avatar-select">
+          <option value="♔">♔ White King</option>
+          <option value="♕">♕ White Queen</option>
+          <option value="♘">♘ White Knight</option>
+          <option value="♜">♜ Black Rook</option>
+        </select>
+
+        <div class="entry-actions">
+          <button class="primary-button" type="submit">Login & Continue</button>
+          <button type="button" id="guest-play">Play Without Login</button>
+        </div>
+      </form>
+
+      <div class="feature-strip">
+        <span>Legal Moves</span>
+        <span>Computer Levels</span>
+        <span>Two Players</span>
+        <span>Special Rules</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="entry-screen hidden" id="setup-screen">
+    <div class="entry-panel setup-panel">
+      <p class="eyebrow" id="welcome-player">Player Setup</p>
+      <h1>Choose Your Game</h1>
+      <p class="entry-copy">Pick a mode, level, and clock before the board opens.</p>
+
+      <div class="mode-grid">
+        <button class="mode-choice active" type="button" data-mode="ai">
+          <strong>Computer vs You</strong>
+          <span>Play white against the computer.</span>
+        </button>
+        <button class="mode-choice" type="button" data-mode="local">
+          <strong>Two Players</strong>
+          <span>Play white and black on the same device.</span>
+        </button>
+      </div>
+
+      <div class="setup-grid">
+        <div>
+          <label class="field-label" for="setup-level">Computer Level</label>
+          <select id="setup-level">
+            <option value="1">Easy</option>
+            <option value="2" selected>Medium</option>
+            <option value="3">Hard</option>
+          </select>
+          <p class="helper-text" id="difficulty-help">Balanced computer play for practice.</p>
+        </div>
+        <div>
+          <label class="field-label" for="setup-clock">Clock</label>
+          <select id="setup-clock">
+            <option value="0">No Clock</option>
+            <option value="300">5 Minutes</option>
+            <option value="600">10 Minutes</option>
+            <option value="900" selected>15 Minutes</option>
+            <option value="1800">30 Minutes</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setup-grid">
+        <div>
+          <label class="field-label" for="setup-theme">Board Theme</label>
+          <select id="setup-theme">
+            <option value="classic">Classic</option>
+            <option value="wood">Wood</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="gold" selected>3D Gold</option>
+          </select>
+        </div>
+        <label class="toggle-row">
+          <input id="practice-mode" type="checkbox">
+          <span>Practice mode with unlimited undo</span>
+        </label>
+      </div>
+
+      <div class="entry-actions">
+        <button class="primary-button" id="start-match" type="button">Start Match</button>
+        <button id="back-login" type="button">Back</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="app-shell hidden" id="game-screen">
+    <section class="top-bar">
+      <div>
+        <p class="eyebrow">Raj Chess Game</p>
+        <h1>Play Real Chess</h1>
+        <p class="session-name" id="session-name">Guest Match</p>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="theme-toggle" title="Light or dark mode" aria-label="Light or dark mode">Theme</button>
+        <button class="icon-button" id="fullscreen-board" title="Fullscreen board" aria-label="Fullscreen board">Full</button>
+        <button class="icon-button" id="flip-board" title="Flip board" aria-label="Flip board">Flip</button>
+        <button class="primary-button" id="new-game">New Game</button>
+      </div>
+    </section>
+
+    <section class="game-layout">
+      <aside class="side-panel">
+        <div class="panel-block">
+          <h2>Game</h2>
+          <label class="field-label" for="mode-select">Mode</label>
+          <select id="mode-select">
+            <option value="local">Two Players</option>
+            <option value="ai">Vs Computer</option>
+          </select>
+
+          <label class="field-label" for="difficulty-select">Computer Level</label>
+          <select id="difficulty-select">
+            <option value="1">Easy</option>
+            <option value="2" selected>Normal</option>
+            <option value="3">Hard</option>
+          </select>
+
+          <label class="field-label" for="time-select">Clock</label>
+          <select id="time-select">
+            <option value="0">No Clock</option>
+            <option value="300">5 Minutes</option>
+            <option value="600" selected>10 Minutes</option>
+            <option value="1800">30 Minutes</option>
+          </select>
+
+          <label class="field-label" for="board-theme">Board Theme</label>
+          <select id="board-theme">
+            <option value="classic">Classic</option>
+            <option value="wood">Wood</option>
+            <option value="green">Green</option>
+            <option value="blue">Blue</option>
+            <option value="gold">3D Gold</option>
+          </select>
+
+          <label class="toggle-row">
+            <input id="sound-toggle" type="checkbox" checked>
+            <span>Sound effects</span>
+          </label>
+        </div>
+
+        <div class="panel-block players">
+          <h2>Players</h2>
+          <div class="player-row" id="black-player">
+            <span class="player-dot black-dot"></span>
+            <div>
+              <strong>Black</strong>
+              <small id="black-label">Player 2</small>
+            </div>
+            <time id="black-clock">10:00</time>
+          </div>
+          <div class="player-row active" id="white-player">
+            <span class="player-dot white-dot"></span>
+            <div>
+              <strong>White</strong>
+              <small id="white-label">Player 1</small>
+            </div>
+            <time id="white-clock">10:00</time>
+          </div>
+        </div>
+
+        <div class="panel-block compact-actions">
+          <button id="undo-move">Undo</button>
+          <button id="hint-move">Hint</button>
+          <button id="resign-game">Resign</button>
+          <button id="draw-game">Draw</button>
+          <button id="save-game">Save</button>
+          <button id="load-game">Load</button>
+        </div>
+      </aside>
+
+      <section class="board-stage">
+        <div class="ai-thinking" id="ai-thinking">
+          <span></span>
+          Computer is thinking...
+        </div>
+        <div class="status-card">
+          <strong id="status-title">White to move</strong>
+          <span id="status-detail">Select a white piece to start.</span>
+        </div>
+        <div class="board-wrap">
+          <div class="rank-labels" id="rank-labels"></div>
+          <div class="chess-board" id="chess-board" aria-label="Chess board"></div>
+          <div class="file-labels" id="file-labels"></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="panel-block">
+          <h2>Captured</h2>
+          <div class="capture-group">
+            <span>White captured</span>
+            <div class="captured-list" id="white-captures"></div>
+          </div>
+          <div class="capture-group">
+            <span>Black captured</span>
+            <div class="captured-list" id="black-captures"></div>
+          </div>
+        </div>
+
+        <div class="panel-block move-panel">
+          <h2>Moves</h2>
+          <ol class="move-list" id="move-list"></ol>
+        </div>
+
+        <div class="panel-block stats-grid">
+          <div>
+            <small>Move</small>
+            <strong id="move-count">0</strong>
+          </div>
+          <div>
+            <small>Material</small>
+            <strong id="material-score">0</strong>
+          </div>
+          <div>
+            <small>Score</small>
+            <strong id="score-summary">0 / 0 / 0</strong>
+          </div>
+          <div>
+            <small>Best Move</small>
+            <strong id="best-move">--</strong>
+          </div>
+        </div>
+
+      </aside>
+    </section>
+  </main>
+
+  <dialog id="promotion-dialog" class="modal-card">
+    <form method="dialog">
+      <h2>Choose Promotion</h2>
+      <div class="promotion-grid">
+        <button value="queen" class="promotion-choice" data-piece="queen"></button>
+        <button value="rook" class="promotion-choice" data-piece="rook"></button>
+        <button value="bishop" class="promotion-choice" data-piece="bishop"></button>
+        <button value="knight" class="promotion-choice" data-piece="knight"></button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="result-dialog" class="modal-card">
+    <form method="dialog">
+      <h2 id="result-title">Game Over</h2>
+      <p id="result-message"></p>
+      <div class="result-grid">
+        <div><small>Moves</small><strong id="result-move-count">0</strong></div>
+        <div><small>Mode</small><strong id="result-mode">--</strong></div>
+      </div>
+      <button class="primary-button" value="new">Play Again</button>
+    </form>
+  </dialog>
+
+  <dialog id="restart-dialog" class="modal-card">
+    <form method="dialog">
+      <h2>Restart Game?</h2>
+      <p>This will clear the current board and start a fresh match.</p>
+      <div class="entry-actions">
+        <button class="primary-button" value="restart">Restart</button>
+        <button value="cancel">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

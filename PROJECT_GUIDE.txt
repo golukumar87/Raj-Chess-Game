@@ -1,0 +1,801 @@
+RAJ CHESS GAME - FULL PROJECT GUIDE
+===================================
+
+Project Name
+------------
+Raj Chess Game
+
+Short Description
+-----------------
+Raj Chess Game is a browser-based chess game with a modern 3D-style UI.
+Users can play as a guest or with a saved player profile. The game supports
+two-player local mode, computer-vs-player mode, legal chess moves, special
+rules, hints, save/load, board themes, sound effects, and responsive design.
+
+
+1. TECHNOLOGIES USED
+====================
+
+Frontend
+--------
+1. HTML5
+   - Used to create the structure of the web page.
+   - Main file: index.html
+
+2. CSS3
+   - Used for all UI/UX styling.
+   - Includes glassmorphism, 3D shadows, responsive layout, board themes,
+     animations, mobile layout, loading screen, toast notifications, and modals.
+   - Main file: style.css
+
+3. JavaScript
+   - Used for chess logic, move validation, AI, UI rendering, profile saving,
+     localStorage save/load, sound effects, keyboard shortcuts, and game state.
+   - Main file: app.js
+
+Backend / Optional Server
+-------------------------
+1. Node.js
+   - Used to run the optional local server.
+
+2. Express.js
+   - Used in server.js to serve static files like index.html, style.css,
+     and app.js.
+
+3. Socket.IO and CORS
+   - Listed in package.json.
+   - Socket.IO can be used later for online multiplayer.
+   - Current main game is client-side.
+
+
+2. PROJECT FILE STRUCTURE
+=========================
+
+Chees Game/
+|-- index.html       Main HTML structure and UI screens
+|-- style.css        Complete design, responsive UI, 3D styling, themes
+|-- app.js           Chess rules, rendering, AI, save/load, interactions
+|-- server.js        Optional Express server
+|-- package.json     Project scripts and dependency list
+|-- README.md        Professional project README
+|-- PROJECT_GUIDE.txt This full explanation file
+
+
+3. HOW TO RUN THE PROJECT
+=========================
+
+Option 1: Open Directly in Browser
+----------------------------------
+1. Open the project folder.
+2. Double-click index.html.
+3. The game will open in the browser.
+
+Option 2: Run with Node.js Server
+---------------------------------
+Step 1: Install dependencies
+
+    npm install
+
+Step 2: Start the server
+
+    npm start
+
+or
+
+    node server.js
+
+Step 3: Open in browser
+
+    http://localhost:3000
+
+
+4. HOW TO BUILD THIS PROJECT FROM SCRATCH
+=========================================
+
+Step 1: Create project folder
+-----------------------------
+Create a folder named:
+
+    Raj Chess Game
+
+Step 2: Create main files
+-------------------------
+Create these files:
+
+    index.html
+    style.css
+    app.js
+    server.js
+    package.json
+
+Step 3: Build HTML structure
+----------------------------
+In index.html, create:
+
+1. Login screen
+   - Player name input
+   - Email/username input
+   - Avatar selection
+   - Login button
+   - Play Without Login button
+
+2. Setup screen
+   - Computer vs You mode
+   - Two Players mode
+   - Difficulty selector
+   - Clock selector
+   - Board theme selector
+   - Practice mode toggle
+
+3. Game screen
+   - Header controls
+   - Left panel: game settings, players, actions
+   - Center: chess board
+   - Right panel: captured pieces, move history, stats
+   - Promotion modal
+   - Result modal
+   - Restart modal
+   - Toast notification area
+   - Loading screen
+
+Step 4: Add CSS styling
+-----------------------
+In style.css, add:
+
+1. CSS variables for colors
+2. Dark and light mode
+3. Glassmorphic panels
+4. 3D chessboard preview
+5. Responsive layout
+6. Board square styling
+7. Piece styling
+8. Legal move highlights
+9. Last move animation
+10. Check warning style
+11. Modal styling
+12. Mobile bottom toolbar
+
+Step 5: Add JavaScript logic
+----------------------------
+In app.js, add:
+
+1. Board state
+2. Piece definitions
+3. Legal move generation
+4. Check/checkmate detection
+5. UI rendering
+6. AI move selection
+7. Save/load with localStorage
+8. Sound effects
+9. Keyboard shortcuts
+10. Toast notifications
+
+
+5. MAIN FEATURES
+================
+
+1. Login and Guest Mode
+-----------------------
+Users can enter a player name and optional email/username, or start instantly
+using Play Without Login.
+
+2. Player Avatar
+----------------
+Users can select a chess piece avatar. The selected avatar is displayed in
+the player panel.
+
+3. Game Modes
+-------------
+Computer vs You:
+The player plays as White and the computer plays as Black.
+
+Two Players:
+Two users can play locally on the same device.
+
+4. Difficulty Levels
+--------------------
+Easy, Normal, and Hard difficulty levels control AI search depth and thinking
+delay.
+
+5. Legal Move Highlight
+-----------------------
+When a piece is selected, all legal destination squares are shown.
+
+6. Special Rules
+----------------
+The game supports:
+
+    Castling
+    En passant
+    Pawn promotion
+    Check
+    Checkmate
+    Stalemate
+    Fifty-move draw
+    Insufficient material draw
+
+7. Board Themes
+---------------
+Available themes:
+
+    Classic
+    Wood
+    Green
+    Blue
+    3D Gold
+
+8. Light/Dark Mode
+------------------
+The theme button switches between light mode and dark mode.
+
+9. Save and Load
+----------------
+The game can be saved to browser localStorage and loaded later.
+
+10. Hint System
+---------------
+The Hint button suggests a strong move for the current player.
+
+11. Keyboard Shortcuts
+----------------------
+N - New game
+U - Undo
+H - Hint
+F - Fullscreen board
+S - Save game
+
+12. Mobile Layout
+-----------------
+On mobile:
+
+    Board appears first
+    Panels become collapsible
+    Main controls become a bottom toolbar
+    Buttons are touch-friendly
+
+
+6. IMPORTANT FUNCTIONS IN app.js
+================================
+
+newState()
+----------
+Creates a fresh game state.
+It stores:
+
+    board
+    current turn
+    move history
+    captures
+    clocks
+    last move
+    game result
+
+createStartBoard()
+------------------
+Creates the initial chess board with all pieces in their starting positions.
+
+piece(type, color, hasMoved)
+----------------------------
+Creates a chess piece object.
+
+cloneState(source)
+------------------
+Creates a copy of the current game state.
+Used for move simulation and undo.
+
+cloneBoard(board)
+-----------------
+Copies the 8x8 board.
+
+inBounds(row, col)
+------------------
+Checks if a square is inside the board.
+
+opposite(color)
+---------------
+Returns the opposite color.
+
+squareName(row, col)
+--------------------
+Converts board position to chess notation.
+Example:
+
+    row 6, col 4 = e2
+
+allLegalMoves(game, color)
+--------------------------
+Returns all legal moves for a player.
+
+legalMovesFor(game, row, col, color)
+------------------------------------
+Returns all legal moves for a selected piece.
+It removes moves that would leave the king in check.
+
+pseudoMoves(game, row, col)
+---------------------------
+Generates possible moves for a piece before checking king safety.
+
+castleMoves(game, row, col)
+---------------------------
+Checks if castling is possible.
+Supports kingside and queenside castling.
+
+isKingInCheck(game, color)
+--------------------------
+Checks whether the king of a color is under attack.
+
+findKing(board, color)
+----------------------
+Finds the position of a king on the board.
+
+isSquareAttacked(game, row, col, attacker)
+------------------------------------------
+Checks if a square is attacked by the opponent.
+
+makeMove(move, promotion)
+-------------------------
+Makes a move after validating it.
+Also handles promotion and sound feedback.
+
+applyMove(game, move, options)
+------------------------------
+Actually updates the board.
+Used for real moves and simulated moves.
+
+notationForMove(game, move, captured)
+-------------------------------------
+Generates chess notation for move history.
+Examples:
+
+    e4
+    Nf3
+    Qh4+
+    O-O
+
+afterMove()
+-----------
+Runs after a player move.
+It updates UI, checks game result, and triggers AI if needed.
+
+updateGameResult()
+------------------
+Checks for:
+
+    checkmate
+    stalemate
+    draw
+    insufficient material
+
+recordCompletedGame()
+---------------------
+Updates win/loss/draw stats and match history.
+
+chooseAiMove()
+--------------
+Chooses the computer move.
+
+getBestMoveFor(color, depth)
+----------------------------
+Finds the best move for a player using minimax search.
+
+minimax(game, depth, alpha, beta, maximizingWhite)
+--------------------------------------------------
+AI algorithm used to search future moves.
+Alpha-beta pruning improves performance.
+
+evaluate(game)
+--------------
+Scores the board position based on material, center control, and mobility.
+
+render()
+--------
+Main UI update function.
+It calls:
+
+    renderBoard()
+    renderLabels()
+    renderPanels()
+    renderStatus()
+
+renderBoard()
+-------------
+Draws all board squares and chess pieces in the browser.
+
+renderLabels()
+--------------
+Updates board coordinate labels.
+
+renderPanels()
+--------------
+Updates players, clocks, move history, captures, stats, and best move.
+
+renderStatus()
+--------------
+Updates whose turn it is and shows check warning.
+
+onSquareClick(row, col)
+-----------------------
+Handles board square clicks.
+It selects pieces and moves pieces.
+
+openPromotion(move)
+-------------------
+Shows the promotion modal when a pawn reaches the last rank.
+
+showResult()
+------------
+Shows the result modal when the game ends.
+
+resetGame()
+-----------
+Starts a fresh match.
+
+requestRestart()
+----------------
+Shows restart confirmation before clearing the current game.
+
+saveCurrentGame()
+-----------------
+Saves the current game to localStorage.
+
+loadSavedGame()
+---------------
+Loads a saved game from localStorage.
+
+showHint()
+----------
+Shows the suggested best move.
+
+toggleColorMode()
+-----------------
+Switches between dark and light mode.
+
+toggleFullscreenBoard()
+-----------------------
+Shows only the chessboard in fullscreen-style layout.
+
+startClock()
+------------
+Starts and updates the game clock.
+
+undoMove()
+----------
+Undoes moves.
+In practice mode, undo is more flexible.
+
+handleShortcut(event)
+---------------------
+Handles keyboard shortcuts.
+
+showScreen(screen)
+------------------
+Switches between login, setup, and game screens.
+
+continueToSetup()
+-----------------
+Saves login or guest profile and opens setup screen.
+
+chooseMode(mode)
+----------------
+Selects game mode.
+
+startConfiguredMatch()
+----------------------
+Starts the match using setup screen values.
+
+loadProfile()
+-------------
+Loads saved player profile, settings, stats, and match history.
+
+saveProfileData()
+-----------------
+Saves profile, settings, stats, and history.
+
+applySettings()
+---------------
+Applies board theme, color mode, sound setting, and practice mode.
+
+setupCollapsiblePanels()
+------------------------
+Makes panels collapsible on mobile.
+
+
+7. HOW THE GAME WORKS INTERNALLY
+================================
+
+1. User opens the game.
+2. Loading screen appears.
+3. Login screen appears.
+4. User logs in or plays as guest.
+5. Setup screen appears.
+6. User selects mode, difficulty, clock, theme, and practice mode.
+7. Game screen opens.
+8. JavaScript creates a new board state.
+9. User clicks a piece.
+10. Legal moves are calculated.
+11. User clicks a legal square.
+12. Move is applied.
+13. Game checks for check, checkmate, stalemate, or draw.
+14. UI updates.
+15. If AI mode and it is Black's turn, AI chooses a move.
+16. Game continues until win/draw/resign/timeout.
+
+
+8. LOCALSTORAGE USED
+====================
+
+The browser localStorage stores:
+
+raj_chess_profile
+-----------------
+Stores:
+
+    player name
+    email/username
+    avatar
+    login type
+
+raj_chess_settings
+------------------
+Stores:
+
+    board theme
+    color mode
+    sound setting
+    practice mode
+
+raj_chess_stats
+---------------
+Stores:
+
+    wins
+    losses
+    draws
+
+raj_chess_match_history
+-----------------------
+Stores completed match history.
+
+raj_chess_saved_game
+--------------------
+Stores the current saved game.
+
+
+9. POSSIBLE HR QUESTIONS AND ANSWERS
+====================================
+
+Q1. Tell me about your project.
+-------------------------------
+Answer:
+Raj Chess Game is a browser-based chess game built using HTML, CSS, and
+JavaScript. It allows users to play chess as a guest or with a saved profile.
+The game supports two-player mode, computer mode, legal move validation,
+special rules like castling and en passant, hints, save/load, board themes,
+and responsive UI.
+
+Q2. Why did you choose this project?
+------------------------------------
+Answer:
+I chose this project because chess involves both UI design and complex logic.
+It helped me improve my JavaScript skills, understand game state management,
+implement algorithms, and build a professional responsive interface.
+
+Q3. What technologies did you use?
+----------------------------------
+Answer:
+I used HTML5 for structure, CSS3 for UI/UX styling, JavaScript for chess logic
+and interactivity, and Node.js with Express as an optional local server.
+
+Q4. What was the most challenging part?
+---------------------------------------
+Answer:
+The most challenging part was legal move validation because every move must
+follow chess rules and also ensure the king is not left in check. Implementing
+special moves like castling, en passant, and promotion was also challenging.
+
+Q5. How does your AI work?
+--------------------------
+Answer:
+The AI uses a minimax algorithm with alpha-beta pruning. It checks possible
+future moves, evaluates board positions using material and mobility, and then
+selects the best move.
+
+Q6. What is minimax?
+--------------------
+Answer:
+Minimax is a decision-making algorithm used in games. It assumes both players
+play optimally. The AI tries to minimize the opponent's advantage and maximize
+its own advantage.
+
+Q7. What is alpha-beta pruning?
+-------------------------------
+Answer:
+Alpha-beta pruning is an optimization for minimax. It skips branches that
+cannot affect the final decision, making AI search faster.
+
+Q8. How do you validate legal moves?
+------------------------------------
+Answer:
+First, the game generates possible moves for a piece. Then it simulates each
+move and removes any move that leaves the player's own king in check.
+
+Q9. How do you detect checkmate?
+--------------------------------
+Answer:
+The game checks if the current player's king is in check and whether the player
+has any legal moves. If the king is in check and there are no legal moves, it is
+checkmate.
+
+Q10. How do you handle pawn promotion?
+--------------------------------------
+Answer:
+When a pawn reaches the last rank, a promotion modal appears. The user can
+choose queen, rook, bishop, or knight.
+
+Q11. How do you save the game?
+------------------------------
+Answer:
+The game uses browser localStorage. It saves the board state, player profile,
+settings, move history, captures, and clocks.
+
+Q12. Is the project responsive?
+-------------------------------
+Answer:
+Yes. The project uses CSS media queries. On mobile, the board appears first,
+panels become collapsible, and controls appear in a bottom toolbar.
+
+Q13. What UI/UX improvements did you add?
+-----------------------------------------
+Answer:
+I added a 3D-style chessboard preview, glassmorphic panels, board themes,
+animations, loading screen, toast notifications, better result modal, legal
+move highlights, and mobile-friendly controls.
+
+Q14. How is the project structured?
+-----------------------------------
+Answer:
+The project is structured into separate files:
+index.html for layout, style.css for design, app.js for logic, server.js for
+optional server, package.json for dependencies, and documentation files.
+
+Q15. What future improvements can be added?
+-------------------------------------------
+Answer:
+Future improvements include online multiplayer, real Three.js 3D board,
+stronger AI, user accounts, match history database, sound themes, and game
+analysis mode.
+
+
+10. POSSIBLE TECHNICAL QUESTIONS
+================================
+
+Q1. What is the purpose of cloneState()?
+---------------------------------------
+It creates a safe copy of the game state so moves can be simulated without
+changing the real board.
+
+Q2. Why do you need pseudoMoves() and legalMovesFor() separately?
+-----------------------------------------------------------------
+pseudoMoves() gives possible moves based on piece movement. legalMovesFor()
+filters those moves by checking king safety.
+
+Q3. What is localStorage?
+-------------------------
+localStorage is browser storage that keeps data even after refreshing the page.
+This project uses it for profile, settings, stats, and saved game.
+
+Q4. How does the board render?
+------------------------------
+renderBoard() clears the board and recreates all 64 squares. It adds pieces,
+highlights, last move, check, legal moves, and click events.
+
+Q5. How does the clock work?
+----------------------------
+startClock() uses setInterval() to reduce the current player's time every
+second. If time reaches zero, the opponent wins by timeout.
+
+Q6. How does undo work?
+-----------------------
+Before each move, a cloned snapshot of the state is stored. undoMove() restores
+the last snapshot.
+
+Q7. How does board flipping work?
+---------------------------------
+The flipped variable changes the row and column rendering order, so the board
+is displayed from the opposite side.
+
+Q8. How does the app switch screens?
+------------------------------------
+showScreen() hides or shows login, setup, and game screens by changing CSS
+classes.
+
+
+11. HOW TO EXPLAIN THIS PROJECT IN INTERVIEW
+============================================
+
+Short Interview Explanation
+---------------------------
+Raj Chess Game is a complete browser-based chess application. I built it with
+HTML, CSS, and JavaScript. It includes a modern 3D-style interface, guest/login
+flow, local two-player mode, computer mode, move validation, special chess
+rules, hints, save/load, player stats, and responsive mobile layout. The main
+challenge was implementing legal chess moves and AI using minimax.
+
+Long Interview Explanation
+--------------------------
+This project is a chess game built for the browser. The UI is created using
+HTML and CSS with a glassmorphic 3D theme. The game logic is written in
+JavaScript. I implemented a complete 8x8 chess board, piece movement rules,
+legal move filtering, check/checkmate detection, special rules, undo, save/load,
+and an AI opponent. The AI uses minimax with alpha-beta pruning. I also added
+profile persistence, board themes, sound effects, toasts, mobile responsiveness,
+and keyboard shortcuts.
+
+
+12. COMMON PROJECT DEMO FLOW
+============================
+
+During demo:
+
+1. Open the game.
+2. Show the loading screen.
+3. Enter a player name.
+4. Select avatar.
+5. Choose Computer vs You.
+6. Select difficulty.
+7. Select board theme.
+8. Start match.
+9. Select a piece and show legal moves.
+10. Make a move.
+11. Show move history update.
+12. Click Hint.
+13. Show Save and Load.
+14. Show board theme change.
+15. Show mobile responsive layout if possible.
+
+
+13. KNOWN LIMITATIONS
+=====================
+
+1. Online multiplayer is not fully implemented yet.
+2. AI is basic compared to professional chess engines.
+3. No database is used.
+4. User login is demo-style and stored locally.
+5. Three.js is planned as a future 3D enhancement, not required for current
+   browser gameplay.
+
+
+14. FUTURE SCOPE
+================
+
+1. Real online multiplayer
+2. Real user authentication
+3. Database for saved matches
+4. Stronger chess AI
+5. Three.js 3D chessboard
+6. Drag-and-drop pieces
+7. Game analysis
+8. Tournament mode
+9. Leaderboard
+10. Cloud save
+
+
+15. FINAL SUMMARY
+=================
+
+Raj Chess Game is a complete and presentable frontend game project. It shows
+skills in:
+
+    HTML structure
+    CSS UI/UX design
+    Responsive design
+    JavaScript logic
+    Game state management
+    Algorithms
+    localStorage
+    DOM rendering
+    User interaction
+    Project documentation
+
+This project is suitable for portfolio, college submission, internship demo,
+and HR/technical interview discussion.
